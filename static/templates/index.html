@@ -34,10 +34,10 @@
 
       <!-- PDF upload area -->
       <div class="file-upload-area">
-        <label for="pdf-upload" class="file-label">
+        <label for="pdf-files" class="file-label">
           <span class="icon">📄</span>
           <p class="file-label-text">Drag and drop your PDF file here or click to select it.</p>
-          <input type="file" id="pdf-upload" class="file-input" accept=".pdf">
+          <input type="file" id="pdf-files" class="file-input" accept=".pdf">
         </label>
         <div id="file-selected-name" class="file-selected">No file selected</div>
       </div>
@@ -52,8 +52,8 @@
       <!-- URL input field -->
       <div class="url-input-area">
         <label for="url-input" class="url-label">Enter a webpage URL</label>
-        <input type="text" id="url-input" class="url-input" placeholder="https://example.com">
-        <button id="extract-url" class="btn extract-btn">Extract Text</button>
+        <input type="text" id="website-url" class="website-url" placeholder="https://example.com">
+      <!-- <button onclick="extractTextFromWebsite()" class="btn extract-btn">Extract Text</button> -->
       </div>
 
       <!-- Buttons to proceed or go back -->
@@ -66,7 +66,7 @@
     <div class="wizard-step step-2">
       <h2 class="step-title">Review and Edit the Extracted Text</h2>
       <p class="step-instructions">Edit the extracted text to fit your needs. Add sections or refine the content before generating the script.</p>
-      <textarea id="text-editor" class="text-editor"></textarea>
+      <textarea id="podcast-content" class="text-editor"></textarea>
       <div class="navigation-buttons">
         <button id="back-to-step-1" class="btn back-step-btn">Back</button>
         <button id="go-to-step-3" class="btn next-step-btn">Next</button>
@@ -137,7 +137,7 @@
   </div>
 
   <!-- Link to the JS files -->
-  <script src="../jss/voicecontroller.js"></script>
+  <!-- <script src="../jss/voicecontroller.js"></script> -->
   <script src="../jss/main.js"></script>
 </body>
 </html>

@@ -1,0 +1,11 @@
+Flask
+python-dotenv
+azure-ai-formrecognizer
+azure-cognitiveservices-speech
+openai
+ffmpeg-python
+beautifulsoup4
+requests
+PyPDF2
+azure-storage-blob
+pydub
