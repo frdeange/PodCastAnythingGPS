@@ -84,28 +84,30 @@
       <!-- Configuration Section -->
       <div class="config-section" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
         <!-- Language Selection -->
-        <div class="config-options" style="text-align: center; margin-bottom: 20px;">
-          <label for="language-select" class="config-label" style="font-size: 1rem; color: #007b8f;">Select Language:</label>
-          <select id="language-select" style="margin: 10px auto; display: block;">
-            <option value="en">English</option>
-            <option value="es">Spanish</option>
+        <div class="language-selection" style="text-align: center; margin-bottom: 20px;">
+          <label for="language" class="config-label" style="font-size: 1rem; color: #007b8f;">Select Language:</label>
+          <select id="language" class="config-select">
+            <option value="en-US">English</option>
+            <option value="es-ES">Spanish</option>
+            <option value="de-DE">German</option>
+            <option value="fr-FR">French</option>
+            <option value="it-IT">Italian</option>
+            <option value="pt-BR">Portuguese</option>
           </select>
         </div>
 
         <!-- Voice Selection -->
         <div class="voice-selection" style="display: flex; justify-content: center; gap: 20px;">
           <div>
-            <label for="voice-1-select" class="config-label" style="font-size: 1rem; color: #007b8f;">Voice 1:</label>
-            <select id="voice-1-select">
-              <option value="voice1">Voice 1</option>
-              <option value="voice2">Voice 2</option>
+            <label for="speaker1" class="config-label" style="font-size: 1rem; color: #007b8f;">Voice 1:</label>
+            <select id="speaker1" class="config-select">
+              <!-- Options will be populated dynamically -->
             </select>
           </div>
           <div>
-            <label for="voice-2-select" class="config-label" style="font-size: 1rem; color: #007b8f;">Voice 2:</label>
-            <select id="voice-2-select">
-              <option value="voice1">Voice 1</option>
-              <option value="voice2">Voice 2</option>
+            <label for="speaker2" class="config-label" style="font-size: 1rem; color: #007b8f;">Voice 2:</label>
+            <select id="speaker2" class="config-select">
+              <!-- Options will be populated dynamically -->
             </select>
           </div>
         </div>
@@ -134,7 +136,8 @@
     </div>
   </div>
 
-  <!-- Link to the JS file -->
+  <!-- Link to the JS files -->
+  <script src="../jss/voicecontroller.js"></script>
   <script src="../jss/main.js"></script>
 </body>
 </html>
