@@ -5,13 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Podcast Wizard</title>
   <!-- Link to the CSS file -->
-  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
+
+  <!-- Loader HTML -->
+<div id="load" style="display: none;">
+  <div>G</div>
+  <div>N</div>
+  <div>I</div>
+  <div>D</div>
+  <div>A</div>
+  <div>O</div>
+  <div>L</div>
+</div>
+
   <!-- Background with gradient and logo -->
   <div class="background-container">
     <div class="logo-container">
-      <img src="../images/logo.png" alt="Podcast Wizard Logo" class="logo">
+      <img src="/static/images/logo.png" alt="Podcast Wizard Logo" class="logo">
     </div>
   </div>
 
@@ -78,9 +90,6 @@
       <h2 class="step-title">Configure Your Podcast</h2>
       <p class="step-instructions">Select the language and voices for your podcast script. Review or edit the SSML text that will be used to generate the audio.</p>
 
-      <!-- SSML Text Editor -->
-      <textarea id="ssml-editor" class="text-editor" placeholder="SSML content here..."></textarea>
-
       <!-- Configuration Section -->
       <div class="config-section" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
         <!-- Language Selection -->
@@ -113,6 +122,13 @@
         </div>
       </div>
 
+      <!-- Button to generate SSML -->
+      <button id="generate-ssml" class="btn generate-btn">Generate Script Format</button>
+
+      <!-- SSML Text Editor -->
+      <textarea id="ssml-content" class="text-editor" placeholder="SSML content here..."></textarea>
+     
+
       <!-- Navigation Buttons -->
       <div class="navigation-buttons">
         <button id="back-to-step-2" class="btn back-step-btn">Back</button>
@@ -138,6 +154,6 @@
 
   <!-- Link to the JS files -->
   <!-- <script src="../jss/voicecontroller.js"></script> -->
-  <script src="../jss/main.js"></script>
+  <script src="/static/jss/main.js"></script>
 </body>
 </html>

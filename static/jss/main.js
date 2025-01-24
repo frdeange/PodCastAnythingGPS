@@ -1,4 +1,21 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+  // Show loader
+function showLoader() {
+  const loader = document.getElementById("load");
+  if (loader) {
+    loader.style.display = "block";
+  }
+}
+
+// Hide loader
+function hideLoader() {
+  const loader = document.getElementById("load");
+  if (loader) {
+    loader.style.display = "none";
+  }
+}
+  
   // Step navigation logic
   const steps = document.querySelectorAll(".wizard-step");
   const progressIndicators = document.querySelectorAll(".progress-bar li");
@@ -149,7 +166,22 @@ document.addEventListener("DOMContentLoaded", function () {
     // Step 2: Edit Outline
     // -------------------------------
   
-    // Nothing specific for now; text editing happens directly in the textarea.
+    // Handle the "Next" button in Step 2
+    const goToStep3Button = document.getElementById("go-to-step-3");
+    if (goToStep3Button) {
+      goToStep3Button.addEventListener("click", function () {
+        const podcastContent = document.getElementById("podcast-content").value; // Get the extracted text
+        if (podcastContent.trim() === "") {
+          alert("Please provide content before proceeding.");
+          return;
+        }
+    
+        // Navigate to Step 3 without making any backend calls
+        showStep(2);
+      });
+    } else {
+      console.error("Next button for Step 2 is missing in the DOM.");
+    }
   
     // -------------------------------
     // Step 3: Configure Podcast
@@ -245,46 +277,119 @@ document.addEventListener("DOMContentLoaded", function () {
   
     document.getElementById("language").addEventListener("change", updateVoiceOptions);
     updateVoiceOptions();
+
+    const generateSSMLButton = document.getElementById("generate-ssml");
+    if (generateSSMLButton) {
+      generateSSMLButton.addEventListener("click", function () {
+        const language = document.getElementById("language").value;
+        const speaker1 = document.getElementById("speaker1").value;
+        const speaker2 = document.getElementById("speaker2").value;
+        const podcastContent = document.getElementById("podcast-content").value;
+
+    if (!podcastContent.trim()) {
+      alert("Please provide content to generate the SSML.");
+      return;
+    }
+
+    showLoader(); // Show loader while generating the SSML
+
+    fetch("/generate_outline", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        content: podcastContent,
+        language: language,
+        speaker1: speaker1,
+        speaker2: speaker2,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.ssml) {
+          document.getElementById("ssml-content").value = data.ssml;
+        } else {
+          alert("Error generating the SSML. Please try again.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error generating the SSML:", error);
+        alert("An error occurred while generating the SSML. Please try again.");
+      })
+      
+      .finally(() => {
+        hideLoader(); // Hide loader after the operation
+      });
+  });
+} else {
+  console.error("Generate SSML button is missing in the DOM.");
+}
   
     // -------------------------------
     // Step 4: Generate Audio
     // -------------------------------
-    function generateAudio() {
-      const outline = document.getElementById("podcast-content").value;
-      const speaker1 = document.getElementById("speaker1").value;
-      const speaker2 = document.getElementById("speaker2").value;
-  
-      fetch("/generate_audio", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `outline=${encodeURIComponent(outline)}&speaker1=${encodeURIComponent(
-          speaker1
-        )}&speaker2=${encodeURIComponent(speaker2)}`,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.audio_file) {
-            const audioUrl = data.audio_file;
-            const audioElement = document.createElement("audio");
-            audioElement.controls = true;
-            audioElement.src = audioUrl;
-            document.getElementById("audio-player").appendChild(audioElement);
-          } else {
-            alert("Error creating audio.");
-          }
-        })
-        .catch((error) => {
-          alert("Error creating audio: " + error);
-        });
+  function generateAudio() {
+    const outline = document.getElementById("ssml-content").value; // Correct field
+    const speaker1 = document.getElementById("speaker1").value;
+    const speaker2 = document.getElementById("speaker2").value;
+
+    if (!outline.trim()) {
+      alert("Please provide the SSML content to generate the audio.");
+      return;
     }
-  
-    document
-      .getElementById("generate-audio")
-      .addEventListener("click", generateAudio);
-  
-    // Initialize the first step
-    showStep(currentStep);
-  });
+
+    showLoader(); // Show loader while generating the audio
+
+    // Sending data to the backend to generate the audio
+    fetch("/generate_audio", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `outline=${encodeURIComponent(outline)}&speaker1=${encodeURIComponent(
+        speaker1
+      )}&speaker2=${encodeURIComponent(speaker2)}`,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.audio_file) {
+          const audioUrl = data.audio_file; // URL of the generated audio file
+          const audioPlayer = document.getElementById("audio-output"); // Step 4 container
+
+          if (audioPlayer) {
+            // Set the source of the audio player
+            audioPlayer.src = audioUrl;
+            audioPlayer.load();
+            audioPlayer.play(); // Auto-play the audio
+
+            // Proceed to step 4
+            showStep(3);
+          } else {
+            console.error("Audio player container not found in the DOM.");
+          }
+        } else {
+          alert("Error creating audio. Please try again.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error creating audio:", error);
+        alert("An error occurred while creating the audio. Please try again.");
+      })
+      .finally(() => {
+        hideLoader(); // Hide loader after the operation
+      });
+  }
+
+  // Assign the generateAudio function to the button
+  const generateAudioButton = document.getElementById("generate-audio");
+  if (generateAudioButton) {
+    generateAudioButton.addEventListener("click", generateAudio);
+  } else {
+    console.error("Generate Audio button is missing in the DOM.");
+  }
+
+  // Initialize the first step
+  showStep(currentStep);
+});
   

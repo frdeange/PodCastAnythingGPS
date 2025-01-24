@@ -98,9 +98,11 @@ def extract_text_from_website():
 
 @app.route('/generate_outline', methods=['POST'])
 def generate_outline():
-    content = request.form['content']
-    language = request.form['language']
-
+    data = request.get_json()
+    content = data.get("content")
+    language = data.get("language")
+    speaker1 = data.get("speaker1")
+    speaker2 = data.get("speaker2")
     try:
         response = openai.chat.completions.create(
             model=AZURE_OPENAI_ENGINE,
@@ -111,14 +113,14 @@ def generate_outline():
                     You are an assistant that generates podcast conversations in SSML format.
                     Your main goal is to produce **valid and well-formed XML** using the SSML structure.
                     - Language: {language}.
-                    - Use placeholders {{Speaker1_Voice}} and {{Speaker2_Voice}} for voice names.
+                    - Use placeholders {speaker1} and {speaker2} for voice names.
                     Follow these rules **strictly**:
                         1. Wrap the output in a single <speak> tag with attributes:
                             - version="1.0"
                             - xmlns="http://www.w3.org/2001/10/synthesis"
                             - xml:lang="{language}".
                         2. Each speaker's dialogue must be encapsulated in <voice> and <prosody> tags:
-                            - <voice name="{{Speaker1_Voice}}"><prosody rate="medium">Dialogue here</prosody></voice>
+                            - <voice name="{speaker1}"><prosody rate="medium">Dialogue here</prosody></voice>
                         3. Ensure no content is added **before** the <speak> tag or after the </speak> tag.
                         4. Use consistent prosody attributes, e.g., rate="medium". **Do not use rate="fast" or invalid values.**
                         5. Use <emphasis> tags sparingly to highlight key phrases.
@@ -137,10 +139,10 @@ def generate_outline():
                     
                     Example format:
                         <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="{language}">
-                            <voice name="{{Speaker1_Voice}}">
+                            <voice name="{speaker1}">
                                 <prosody rate="medium">Welcome to the podcast! Today, we're talking about Azure AI solutions.</prosody>
                             </voice>
-                            <voice name="{{Speaker2_Voice}}">
+                            <voice name="{speaker2}">
                                 <prosody rate="medium">Yes, and we'll cover key use cases and benefits.</prosody>
                             </voice>
                         </speak>
@@ -155,7 +157,7 @@ def generate_outline():
         outline = response.choices[0].message.content.strip()
     except Exception as e:
         outline = f"Error generating the outline: {e}"
-    return jsonify({'outline': outline})
+    return jsonify({'ssml': outline})
 
 
 def split_ssml(ssml_content, max_voice_elements=50):
