@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Podcast Wizard</title>
+  <!-- Link to the CSS file -->
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <!-- Background with gradient and logo -->
+  <div class="background-container">
+    <div class="logo-container">
+      <img src="../images/logo.png" alt="Podcast Wizard Logo" class="logo">
+    </div>
+  </div>
+
+  <!-- Navigation bar for progress -->
+  <div class="progress-bar-container">
+    <ul class="progress-bar">
+      <li class="active" id="step-1-indicator">Step 1: Source</li>
+      <li id="step-2-indicator">Step 2: Text</li>
+      <li id="step-3-indicator">Step 3: Configuration</li>
+      <li id="step-4-indicator">Step 4: Audio</li>
+    </ul>
+  </div>
+
+  <!-- Main container for the wizard -->
+  <div class="wizard-container">
+    <!-- Step 1: Select Source -->
+    <div class="wizard-step step-1 active">
+      <h2 class="step-title">Select the content for your podcast</h2>
+      <p class="step-instructions">Upload a PDF file or enter a URL. If you want, enable advanced extraction using artificial intelligence.</p>
+
+      <!-- PDF upload area -->
+      <div class="file-upload-area">
+        <label for="pdf-upload" class="file-label">
+          <span class="icon">📄</span>
+          <p class="file-label-text">Drag and drop your PDF file here or click to select it.</p>
+          <input type="file" id="pdf-upload" class="file-input" accept=".pdf">
+        </label>
+        <div id="file-selected-name" class="file-selected">No file selected</div>
+      </div>
+
+      <!-- Checkbox for Azure Document Intelligence -->
+      <div class="option-advanced">
+        <input type="checkbox" id="use-azure-intelligence" class="checkbox-input">
+        <label for="use-azure-intelligence" class="checkbox-label">Enable Azure Document Intelligence</label>
+        <p class="checkbox-description">This option uses artificial intelligence for advanced text extraction.</p>
+      </div>
+
+      <!-- URL input field -->
+      <div class="url-input-area">
+        <label for="url-input" class="url-label">Enter a webpage URL</label>
+        <input type="text" id="url-input" class="url-input" placeholder="https://example.com">
+        <button id="extract-url" class="btn extract-btn">Extract Text</button>
+      </div>
+
+      <!-- Buttons to proceed or go back -->
+      <div class="navigation-buttons">
+        <button id="go-to-step-2" class="btn next-step-btn">Next</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Review and Edit Text -->
+    <div class="wizard-step step-2">
+      <h2 class="step-title">Review and Edit the Extracted Text</h2>
+      <p class="step-instructions">Edit the extracted text to fit your needs. Add sections or refine the content before generating the script.</p>
+      <textarea id="text-editor" class="text-editor"></textarea>
+      <div class="navigation-buttons">
+        <button id="back-to-step-1" class="btn back-step-btn">Back</button>
+        <button id="go-to-step-3" class="btn next-step-btn">Next</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Configure Podcast -->
+    <div class="wizard-step step-3">
+      <h2 class="step-title">Configure Your Podcast</h2>
+      <p class="step-instructions">Select the language and voices for your podcast script. Review or edit the SSML text that will be used to generate the audio.</p>
+
+      <!-- SSML Text Editor -->
+      <textarea id="ssml-editor" class="text-editor" placeholder="SSML content here..."></textarea>
+
+      <!-- Configuration Section -->
+      <div class="config-section" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
+        <!-- Language Selection -->
+        <div class="config-options" style="text-align: center; margin-bottom: 20px;">
+          <label for="language-select" class="config-label" style="font-size: 1rem; color: #007b8f;">Select Language:</label>
+          <select id="language-select" style="margin: 10px auto; display: block;">
+            <option value="en">English</option>
+            <option value="es">Spanish</option>
+          </select>
+        </div>
+
+        <!-- Voice Selection -->
+        <div class="voice-selection" style="display: flex; justify-content: center; gap: 20px;">
+          <div>
+            <label for="voice-1-select" class="config-label" style="font-size: 1rem; color: #007b8f;">Voice 1:</label>
+            <select id="voice-1-select">
+              <option value="voice1">Voice 1</option>
+              <option value="voice2">Voice 2</option>
+            </select>
+          </div>
+          <div>
+            <label for="voice-2-select" class="config-label" style="font-size: 1rem; color: #007b8f;">Voice 2:</label>
+            <select id="voice-2-select">
+              <option value="voice1">Voice 1</option>
+              <option value="voice2">Voice 2</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="navigation-buttons">
+        <button id="back-to-step-2" class="btn back-step-btn">Back</button>
+        <button id="generate-audio" class="btn generate-audio-btn">Generate Audio</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Generate Audio -->
+    <div class="wizard-step step-4">
+      <h2 class="step-title">Generate and Listen to Your Podcast</h2>
+      <p class="step-instructions">Your podcast is being generated. Once complete, you can listen to it below.</p>
+      <div class="audio-preview">
+        <audio id="audio-output" controls>
+          <source src="" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <div class="navigation-buttons">
+        <button id="restart-wizard" class="btn next-step-btn">Restart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link to the JS file -->
+  <script src="../jss/main.js"></script>
+</body>
+</html>

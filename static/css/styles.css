@@ -1,0 +1,243 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  background: linear-gradient(135deg, #f5d6d3, #e9f1f7, #c6e4dd);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Background and Logo */
+.background-container {
+  position: relative;
+  background: transparent;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.logo {
+  max-width: 150px;
+}
+
+/* Progress Bar */
+.progress-bar-container {
+  background-color: #fff;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+  z-index: 10;
+}
+
+.progress-bar {
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0;
+  padding: 0;
+}
+
+.progress-bar li {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #999;
+  border-bottom: 2px solid transparent;
+}
+
+.progress-bar li.active {
+  color: #007b8f;
+  border-bottom: 2px solid #007b8f;
+}
+
+/* Wizard Container */
+.wizard-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Wizard Steps */
+.wizard-step {
+  display: none;
+}
+
+.wizard-step.active {
+  display: block;
+}
+
+/* Titles and Instructions */
+.step-title {
+  font-size: 1.8rem;
+  color: #007b8f;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.step-instructions {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* File Upload Area */
+.file-upload-area {
+  border: 2px dashed #007b8f;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  background-color: #eaf8fc;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.file-label {
+  display: block;
+  cursor: pointer;
+}
+
+.icon {
+  font-size: 2rem;
+  color: #007b8f;
+}
+
+.file-label-text {
+  font-size: 1rem;
+  color: #007b8f;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-selected {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Option Advanced */
+.option-advanced {
+  margin-bottom: 15px;
+}
+
+.checkbox-label {
+  font-size: 1rem;
+  margin-left: 10px;
+  color: #007b8f;
+}
+
+.checkbox-description {
+  font-size: 0.8rem;
+  color: #666;
+  margin-left: 25px;
+}
+
+/* URL Input Area */
+.url-input-area {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.url-label {
+  font-size: 1rem;
+  color: #007b8f;
+}
+
+.url-input {
+  width: 70%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.extract-btn {
+  background-color: #007b8f;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.extract-btn:hover {
+  background-color: #005f6a;
+}
+
+/* Navigation Buttons */
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.next-step-btn {
+  background-color: green;
+  color: white;
+  margin-left: auto;
+}
+
+.next-step-btn:hover {
+  background-color: darkgreen;
+}
+
+.back-step-btn {
+  background-color: red;
+  color: white;
+}
+
+.back-step-btn:hover {
+  background-color: darkred;
+}
+
+.generate-audio-btn {
+  background-color: blue;
+  color: white;
+}
+
+.generate-audio-btn:hover {
+  background-color: darkblue;
+}
+
+/* Text Editor */
+.text-editor {
+  
+  width: calc(100% - 40px); /* Add padding to ensure it doesn't touch container edges */
+  height: 200px;
+  margin: 0 auto;
+  display: block;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+
+
+/* Audio Preview */
+.audio-preview {
+  text-align: center;
+  margin-top: 20px;
+}
+
+audio {
+  margin-top: 10px;
+  width: 100%;
+  max-width: 400px;
+}
