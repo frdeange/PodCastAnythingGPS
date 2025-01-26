@@ -6,14 +6,15 @@ import datetime
 import azure.cognitiveservices.speech as speechsdk
 import re
 import tempfile
+from azure.identity import DefaultAzureCredential
 from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.core.credentials import AzureKeyCredential
 from azure.cognitiveservices.speech import SpeechConfig, SpeechSynthesizer, AudioConfig
+from azure.storage.blob import BlobServiceClient, generate_blob_sas, BlobSasPermissions
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 from PyPDF2 import PdfReader
 from datetime import datetime, timedelta
-from azure.storage.blob import BlobServiceClient, generate_blob_sas, BlobSasPermissions
 from flask import Flask, render_template, request, jsonify
 from pathlib import Path
 from pydub import AudioSegment
@@ -39,10 +40,19 @@ AZURE_SPEECH_KEY = os.getenv('AZURE_SPEECH_KEY')
 AZURE_SPEECH_REGION = os.getenv('AZURE_SPEECH_REGION')
 
 # Azure Blob Storage config from environment variables
-connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
-blob_service_client = BlobServiceClient.from_connection_string(connect_str)
-container_name = os.getenv('AZURE_STORAGE_CONTAINER_NAME')
-container_client = blob_service_client.get_container_client(container_name)
+# connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
+# blob_serviceclient = BlobServiceClient.from_connection_string(connect_str)
+
+# container_client = blob_serviceclient.get_container_client(container_name)
+
+
+# Initialize DefaultAzureCredential for Managed Identity
+credential = DefaultAzureCredential()
+
+# Azure Blob Storage configuration
+CONTAINER_NAME = os.getenv('AZURE_STORAGE_CONTAINER_NAME')
+BLOB_ENDPOINT = os.getenv("AZURE_BLOB_ENDPOINT")
+blob_serviceclient = BlobServiceClient(account_url=BLOB_ENDPOINT, credential=credential)
 
 # OpenAI configuration for Azure
 openai.api_type = AZURE_OPENAI_TYPE
@@ -243,27 +253,17 @@ def generate_speech(ssml_content, file_path, speech_config):
 
 def upload_to_blob_storage(blob_name, file_path):
     """
-    Uploads a file to Azure Blob Storage and generates a SAS URL valid for 1 hour.
+    Uploads a file to Azure Blob Storage and returns the blob URL.
     """
     try:
-        blob_client = container_client.get_blob_client(blob_name)
+        blob_client = blob_serviceclient.get_blob_client(container=CONTAINER_NAME, blob=blob_name)
         
         # Upload the file to the blob
         with open(file_path, "rb") as data:
             blob_client.upload_blob(data, overwrite=True)
         
-        # Generate a SAS token for the blob
-        sas_token = generate_blob_sas(
-            account_name=blob_service_client.account_name,
-            container_name=container_name,
-            blob_name=blob_name,
-            account_key=blob_service_client.credential.account_key,
-            permission=BlobSasPermissions(read=True),
-            expiry=datetime.utcnow() + timedelta(hours=1)  # Valid for 1 hour
-        )
-        
-        # Generate the blob URL with the SAS token
-        blob_url = f"https://{blob_service_client.account_name}.blob.core.windows.net/{container_name}/{blob_name}?{sas_token}"
+        # Generate the blob URL (no SAS token needed)
+        blob_url = f"https://{blob_serviceclient.account_name}.blob.core.windows.net/{CONTAINER_NAME}/{blob_name}"
         
         print(f"File uploaded to: {blob_url}")
         return blob_url
