@@ -146,6 +146,7 @@ def generate_outline():
                     Start with:
                         - A short introduction to the topic.
                         - A lively discussion covering key points.
+                        - Extend the script to include details and examples.
                         - A conclusion summarizing the discussion. 
                     Ensure all generated content is in the same language as the <speak> tag.
                     
