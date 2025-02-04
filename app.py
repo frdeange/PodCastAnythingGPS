@@ -125,6 +125,7 @@ def generate_outline():
                     You are an assistant that generates podcast conversations in SSML format.
                     Your main goal is to produce **valid and well-formed XML** using the SSML structure.
                     - Language: {language}.
+                    - Create a two-person dialogue on the topic.
                     - Use placeholders {speaker1} and {speaker2} for voice names.
                     Follow these rules **strictly**:
                         1. Wrap the output in a single <speak> tag with attributes:
@@ -142,7 +143,6 @@ def generate_outline():
                             - Check for invalid characters or misplaced quotes.
                         7. **Output only valid SSML**. If there are syntax issues, correct them before finalizing the output.
 
-                    Generate a podcast conversation based on this content: {content}
                     Start with:
                         - A short introduction to the topic.
                         - A lively discussion covering key points.
