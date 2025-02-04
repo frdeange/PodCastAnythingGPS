@@ -99,7 +99,7 @@ function hideLoader() {
     Array.from(pdfInput.files).forEach((file) => {
       formData.append("pdf-files", file);
     });
-
+    showLoader(); // Show loader while generating the SSML
     fetch("/extract_text_from_pdf", {
       method: "POST",
       body: formData,
@@ -115,6 +115,9 @@ function hideLoader() {
       })
       .catch((error) => {
         console.error("Error extracting text from the PDF:", error);
+      })
+      .finally(() => {
+          hideLoader(); // Hide loader after the operation
       });
   }
 
@@ -126,6 +129,7 @@ function hideLoader() {
       alert("Please enter a valid URL before proceeding.");
       return;
     }
+    showLoader(); // Show loader while generating the SSML
 
     fetch("/extract_text_from_url", {
       method: "POST",
@@ -143,6 +147,9 @@ function hideLoader() {
       })
       .catch((error) => {
         console.error("Error extracting text from the URL:", error);
+      })
+      .finally(() => {
+        hideLoader(); // Hide loader after the operation
       });
   }
 
